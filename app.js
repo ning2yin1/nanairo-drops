@@ -1,4 +1,4 @@
-import { fitTitle } from './title-screen.js?v=5';
+import { fitTitle } from './title-screen.js?v=6';
 import './game-touch.js?v=5';
 const title = document.querySelector('#title-screen');
 const preparing = document.querySelector('#preparing-screen');

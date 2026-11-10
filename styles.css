@@ -6,12 +6,6 @@ body{-webkit-tap-highlight-color:transparent}
 main{position:fixed;top:0;left:0;width:100%;height:100vh;height:100dvh;margin:0;padding:0;overflow:hidden}
 .screen{position:absolute;inset:0;min-width:0;min-height:0;overflow:hidden}
 [hidden]{display:none!important}
-#title-screen{background:#f2e5ce;--safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px);--safe-left:env(safe-area-inset-left,0px);--safe-right:env(safe-area-inset-right,0px)}
-.title-background{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:contain;pointer-events:none}
-.title-art{position:absolute;pointer-events:none}
-.start{position:absolute;left:5.09194%;top:80.72917%;width:89.10891%;padding:0;border:0;background:none;cursor:pointer;pointer-events:auto;transition:transform .12s;line-height:0}
-.start img{display:block;width:100%;height:auto;pointer-events:none}
-.start:active,.start.is-pressed{transform:translateY(3px)}
 button:focus-visible{outline:3px solid #fff3b9;outline-offset:4px}
 button:disabled{cursor:default}
 [data-game-touch="locked"]{touch-action:none;overscroll-behavior:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}

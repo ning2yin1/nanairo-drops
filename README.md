@@ -15,15 +15,17 @@ npm run build
 `dist/` が公開成果物です。すべて相対パスのため `/nanairo-drops/` で動作します。
 画面の切り替えは `app.js`、準備中画面は `index.html` の `preparing-screen` と専用CSSに分離しています。
 素材707×1536の座標に対してスタート画像630×204を(x=36,y=1240)に配置。
-TOPは元画像全体を単一の`img.title-background`で表示します。
-`object-fit: contain`を使用し、上下の金縁を含めて切り取りません。
-`title-layout.js`はSafe Areaを除く表示領域に収まる小さい方の倍率を採用し、
-`title-screen.js`が画像とボタンを同じ座標系で配置します。
-画像と画面の比率差はクリーム色の余白で処理します。画面を埋めるための拡大、
-画像分割、Canvas、背景の繰り返し、質感や金縁の延長は行いません。
-ルートの高さは100dvhを初期値とし、Visual Viewportの高さに同期します。
-素材は`assets/title-background.png`（707×1536）、ボタンは`assets/start-button.png`（630×204）。
-添付ZIPと同一のPNGです。
+TOPは単一の`img.title-background`を`object-fit: cover`で表示します。
+完成見本`design/title-reference.png`を無改変で`assets/title-complete.png`へコピーしています。
+この画像にはスタートボタンも含まれるため、別画像や文字を重ねず、透明なHTMLボタンで操作します。
+`title-layout.js`でcoverと同じ一様倍率・切り取り位置を計算し、タップ領域を同期します。
+表示は`title.css`と`title-screen.js`へ分離。TOPだけをVisual Viewportに追従させ、
+Safe Areaは背景の縮小に使わずロゴ・操作領域の位置判断に使います。
+402×874では上下の金縁がほぼ残りますが、縦に短い画面では外周の切り取りが必要です。
+変形、Canvas、分割描画、画像の繰り返しや背景のtransformは使用しません。
+
+元の素材`assets/title-background.png`（707×1536）はボタンを含みません。
+`assets/start-button.png`（630×204）とともに未変更で保持しています。
 
 ゲーム画面は `data-game-touch="locked"` と `touch-action:none` でスクロール・ズームを抑制。
 `game-touch.js`はiOSのgestureイベントと複数指操作、非ボタンの連続タップを画面内だけで補完します。

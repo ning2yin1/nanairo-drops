@@ -1,5 +1,5 @@
-const CACHE = 'nanairo-drops-v5';
-const FILES = ['./','./index.html','./styles.css?v=5','./app.js?v=5','./title-layout.js?v=5','./title-screen.js?v=5','./game-touch.js?v=5','./manifest.webmanifest','./assets/title-background.png','./assets/start-button.png','./assets/icon-192.png','./assets/icon-512.png'];
+const CACHE = 'nanairo-drops-v6';
+const FILES = ['./','./index.html','./styles.css?v=6','./title.css?v=6','./app.js?v=6','./title-layout.js?v=6','./title-screen.js?v=6','./game-touch.js?v=5','./manifest.webmanifest','./assets/title-complete.png','./assets/start-button.png','./assets/icon-192.png','./assets/icon-512.png'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(async cache=>{
   // Never seed a new version from the HTTP cache.
   await cache.addAll(FILES.map(url=>new Request(url,{cache:'reload'})));
