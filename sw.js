@@ -1,5 +1,5 @@
-const CACHE = 'nanairo-drops-v1';
-const FILES = ['./','./index.html','./styles.css','./app.js','./manifest.webmanifest','./assets/title-background.png','./assets/start-button.png','./assets/icon-192.png','./assets/icon-512.png'];
+const CACHE = 'nanairo-drops-v2';
+const FILES = ['./','./index.html','./styles.css','./app.js','./title-layout.js','./manifest.webmanifest','./assets/title-background.png','./assets/start-button.png','./assets/icon-192.png','./assets/icon-512.png'];
 self.addEventListener('install', event => event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(FILES))));
 self.addEventListener('activate', event => event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key.startsWith('nanairo-drops-') && key !== CACHE).map(key => caches.delete(key)))).then(() => self.clients.claim())));
 self.addEventListener('fetch', event => {

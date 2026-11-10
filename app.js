@@ -1,3 +1,4 @@
+import { fitTitle } from './title-layout.js';
 const title = document.querySelector('#title-screen');
 const preparing = document.querySelector('#preparing-screen');
 const start = document.querySelector('#start');
@@ -20,6 +21,7 @@ function showTitle() {
   clearTimeout(timer);
   preparing.hidden = true;
   title.hidden = false;
+  fitTitle();
   start.disabled = false;
   start.classList.remove('is-pressed');
   transitioning = false;
