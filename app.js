@@ -1,5 +1,5 @@
-import { fitTitle } from './title-screen.js?v=3';
-import './game-touch.js?v=3';
+import { fitTitle } from './title-screen.js?v=4';
+import './game-touch.js?v=4';
 const title = document.querySelector('#title-screen');
 const preparing = document.querySelector('#preparing-screen');
 const start = document.querySelector('#start');
@@ -30,7 +30,7 @@ function showTitle() {
 }
 start.addEventListener('click', showPreparing);
 back.addEventListener('click', showTitle);
-for (const img of document.querySelectorAll('.title-art img')) {
+for (const img of document.querySelectorAll('#title-screen img')) {
   const fail = () => { document.querySelector('#image-error').hidden = false; start.disabled = true; };
   img.addEventListener('error', fail);
   if (img.complete && !img.naturalWidth) fail();

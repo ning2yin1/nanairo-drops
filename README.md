@@ -15,11 +15,12 @@ npm run build
 `dist/` が公開成果物です。すべて相対パスのため `/nanairo-drops/` で動作します。
 画面の切り替えは `app.js`、準備中画面は `index.html` の `preparing-screen` と専用CSSに分離しています。
 素材707×1536の座標に対してスタート画像630×204を(x=36,y=1240)に配置。
-TOPのルートはfixed + 100dvhでビューポート全体を覆います。
-`title-layout.js`はロゴ・果物・飴・ボタンを一つの座標系で等倍比率のまま配置し、
-`title-screen.js`がCanvasに描画します。Safe Areaと金属の縁の内側に重要部分を保持。
-不足する周囲は元画像の無地のテクスチャと金属の縁のみを延長し、単色の余白を作りません。
-縦向きでの利用を想定しています。
+TOPは単一の`img.title-background`を`object-fit: cover`で表示します。
+画像分割、Canvas、背景画像の重ね合わせ、テクスチャ延長、CSSによる背景scaleは使用しません。
+ルートの高さは100dvhを初期値とし、Visual Viewportの高さに同期します。
+`title-layout.js`はcoverと同じ一様倍率・切り取り位置を計算し、`title-screen.js`が
+背景とボタンの座標を同期します。Safe Area内にロゴとボタンを保ち、外周の切り取りを許容します。
+端末比率によって果物や缶の外周の一部は切れます。縦画面での利用を想定しています。
 
 ゲーム画面は `data-game-touch="locked"` と `touch-action:none` でスクロール・ズームを抑制。
 `game-touch.js`はiOSのgestureイベントと複数指操作、非ボタンの連続タップを画面内だけで補完します。
@@ -57,3 +58,11 @@ TOP画像の範囲、画像のHTTPエラー、タップ往復、復帰後の再�
 実機Safariの検証は別途必要です。
 
 詳細な寸法比較と検証結果: [docs/layout-validation.md](docs/layout-validation.md)
+
+## レイアウトの回帰テスト
+
+PlaywrightとChromiumがあるテスト環境で、ビルド成果物を`/nanairo-drops/`として配信し、
+`CHROMIUM=/path/to/chromium node scripts/check-layout.cjs`を実行できます。
+Playwrightを別の場所に導入済みの場合は`PLAYWRIGHT_MODULE`でモジュールパスを指定。
+`TEST_URL`でテスト先、`SCREENSHOT_DIR`でスクリーンショット出力先を変更できます。
+アプリの実行とビルドにPlaywrightは不要です。
