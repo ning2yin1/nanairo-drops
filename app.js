@@ -1,4 +1,5 @@
-import { fitTitle } from './title-layout.js';
+import { fitTitle } from './title-screen.js?v=3';
+import './game-touch.js?v=3';
 const title = document.querySelector('#title-screen');
 const preparing = document.querySelector('#preparing-screen');
 const start = document.querySelector('#start');
@@ -35,5 +36,11 @@ for (const img of document.querySelectorAll('.title-art img')) {
   if (img.complete && !img.naturalWidth) fail();
 }
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(error => console.warn('オフライン機能を登録できませんでした', error)));
+  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js', {updateViaCache:'none'}).then(registration => {
+    registration.update().catch(console.warn);
+    let reloading = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (!reloading) { reloading = true; location.reload(); }
+    });
+  }).catch(error => console.warn('オフライン機能を登録できませんでした', error)));
 }

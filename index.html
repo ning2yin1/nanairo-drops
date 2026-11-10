@@ -10,18 +10,18 @@
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./assets/icon-192.png">
 <link rel="icon" href="./assets/icon-192.png">
-<link rel="stylesheet" href="./styles.css">
+<link rel="stylesheet" href="./styles.css?v=3">
 <title>ナナイロ ドロップス</title>
 </head>
 <body>
 <main>
-<section id="title-screen" class="screen" aria-label="ナナイロ ドロップス TOP">
+<section id="title-screen" class="screen" data-game-touch="locked" aria-label="ナナイロ ドロップス TOP">
+<canvas class="tin-background" role="img" aria-label="ナナイロ ドロップス。果物と七色の飴をあしらった昭和レトロなお菓子缶"></canvas>
 <div class="title-art">
-<img class="background" src="./assets/title-background.png" alt="ナナイロ ドロップス。果物と七色の飴をあしらった昭和レトロなお菓子缶" width="707" height="1536" fetchpriority="high">
 <button id="start" class="start" type="button" aria-label="スタート"><img src="./assets/start-button.png" alt="" width="630" height="204" draggable="false"></button>
 </div>
 </section>
-<section id="preparing-screen" class="screen" aria-labelledby="preparing-title" hidden>
+<section id="preparing-screen" class="screen" data-game-touch="locked" aria-labelledby="preparing-title" hidden>
 <div class="preparing-tin">
 <p class="brand">ナナイロ<br>ドロップス</p>
 <div class="message">
@@ -35,6 +35,6 @@
 </section>
 </main>
 <p id="image-error" role="alert" hidden>画像を読み込めませんでした。通信状態を確認して、再度ページを開いてください。</p>
-<script type="module" src="./app.js"></script>
+<script type="module" src="./app.js?v=3"></script>
 </body>
 </html>
