@@ -15,12 +15,15 @@ npm run build
 `dist/` が公開成果物です。すべて相対パスのため `/nanairo-drops/` で動作します。
 画面の切り替えは `app.js`、準備中画面は `index.html` の `preparing-screen` と専用CSSに分離しています。
 素材707×1536の座標に対してスタート画像630×204を(x=36,y=1240)に配置。
-TOPは単一の`img.title-background`を`object-fit: cover`で表示します。
-画像分割、Canvas、背景画像の重ね合わせ、テクスチャ延長、CSSによる背景scaleは使用しません。
+TOPは元画像全体を単一の`img.title-background`で表示します。
+`object-fit: contain`を使用し、上下の金縁を含めて切り取りません。
+`title-layout.js`はSafe Areaを除く表示領域に収まる小さい方の倍率を採用し、
+`title-screen.js`が画像とボタンを同じ座標系で配置します。
+画像と画面の比率差はクリーム色の余白で処理します。画面を埋めるための拡大、
+画像分割、Canvas、背景の繰り返し、質感や金縁の延長は行いません。
 ルートの高さは100dvhを初期値とし、Visual Viewportの高さに同期します。
-`title-layout.js`はcoverと同じ一様倍率・切り取り位置を計算し、`title-screen.js`が
-背景とボタンの座標を同期します。Safe Area内にロゴとボタンを保ち、外周の切り取りを許容します。
-端末比率によって果物や缶の外周の一部は切れます。縦画面での利用を想定しています。
+素材は`assets/title-background.png`（707×1536）、ボタンは`assets/start-button.png`（630×204）。
+添付ZIPと同一のPNGです。
 
 ゲーム画面は `data-game-touch="locked"` と `touch-action:none` でスクロール・ズームを抑制。
 `game-touch.js`はiOSのgestureイベントと複数指操作、非ボタンの連続タップを画面内だけで補完します。

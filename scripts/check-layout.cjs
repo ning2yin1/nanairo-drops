@@ -3,13 +3,13 @@ const {chromium}=require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const assert=require('node:assert/strict');
 (async()=>{
  const browser=await chromium.launch({headless:true,...(process.env.CHROMIUM?{executablePath:process.env.CHROMIUM,args:['--no-sandbox']}:{})});
- for(const [width,height,top,bottom] of [[402,874,62,34],[378,818,47,34],[402,759,0,0],[390,844,47,34],[375,667,20,0],[430,932,59,34],[320,568,20,0]]){
+ for(const [width,height,top,bottom] of [[402,874,62,34],[378,818,47,34],[402,759,0,0],[390,844,47,34],[375,667,20,0],[430,932,59,34],[320,568,20,0],[874,402,0,21]]){
   const context=await browser.newContext({viewport:{width,height},isMobile:true,hasTouch:true,serviceWorkers:'block'});
   const page=await context.newPage();const errors=[];
   page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()>=400)errors.push(r.url())});
   await page.goto(process.env.TEST_URL || 'http://127.0.0.1:5173/nanairo-drops/');
   await page.addStyleTag({content:`#title-screen{--safe-top:${top}px;--safe-bottom:${bottom}px}`});
-  await page.evaluate(async()=>{(await import('./title-screen.js?v=4')).fitTitle();await document.querySelector('.title-background').decode()});
+  await page.evaluate(async()=>{(await import('./title-screen.js?v=5')).fitTitle();await document.querySelector('.title-background').decode()});
   const result=await page.evaluate(()=>{
    const box=e=>{const r=e.getBoundingClientRect();return [r.x,r.y,r.width,r.height]};
    const img=document.querySelector('.title-background'),art=document.querySelector('.title-art').getBoundingClientRect(),button=document.querySelector('#start').getBoundingClientRect();
@@ -17,8 +17,9 @@ const assert=require('node:assert/strict');
     images:document.querySelectorAll('img[src$="title-background.png"]').length,canvases:document.querySelectorAll('canvas').length,logoTop:art.y+258*art.width/707,logoLeft:art.x+48*art.width/707,logoRight:art.x+660*art.width/707,
     button:[button.x,button.y,button.right,button.bottom],scale:art.width/art.height,scroll:[document.documentElement.scrollWidth,document.documentElement.scrollHeight]};
   });
-  for(const key of ['root','screen','image'])assert.deepEqual(result[key],[0,0,width,height]);
-  assert.equal(result.images,1);assert.equal(result.canvases,0);assert.equal(result.fit,'cover');assert.equal(result.transform,'none');assert(Math.abs(result.scale-707/1536)<.0001);
+  for(const key of ['root','screen'])assert.deepEqual(result[key],[0,0,width,height]);
+  assert.equal(result.images,1);assert.equal(result.canvases,0);assert.equal(result.fit,'contain');assert.equal(result.transform,'none');assert(Math.abs(result.scale-707/1536)<.0001);
+  assert(result.image[0]>=-.1 && result.image[1]>=top-.1 && result.image[0]+result.image[2]<=width+.1 && result.image[1]+result.image[3]<=height-bottom+.1);
   assert(result.logoTop>=top-.5 && result.logoLeft>=-.5 && result.logoRight<=width+.5);
   assert(result.button[0]>=-.5&&result.button[1]>=top-.5&&result.button[2]<=width+.5&&result.button[3]<=height-bottom+.5);
   assert.deepEqual(result.scroll,[width,height]);
