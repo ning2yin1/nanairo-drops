@@ -11,7 +11,7 @@ const base=process.env.TEST_URL||'http://127.0.0.1:5173/nanairo-drops/';
  await page.addStyleTag({content:'[data-viewport-safe-probe]{padding-top:47px!important;padding-bottom:34px!important}'});
  await page.locator('[data-refresh]').tap();await page.waitForFunction(()=>JSON.parse(document.querySelector('#viewport-debug textarea').value).safeArea.top===47);
  const report=JSON.parse(await textarea.inputValue());
- assert.match(report.build,/^v9-[a-f0-9]{12}$/);assert.equal(report.mode.standalone,true);assert.equal(report.window.innerHeight,844);assert.equal(report.safeArea.top,47);
+ assert.match(report.build,/^v10-[a-f0-9]{12}$/);assert.equal(report.mode.standalone,true);assert.equal(report.scaleTimeline.beforeOpen.visualViewport.scale,1);assert.equal(report.scaleTimeline.afterOpen.visualViewport.scale,1);assert.equal(report.horizontalLayout.documentScrollWidth,390);assert.equal(report.horizontalLayout.diagnosticPanel.overflowCount,0);assert.equal(report.window.innerHeight,844);assert.equal(report.safeArea.top,47);
  assert.equal(report.comparison47.values.find(v=>v.label==='safe-area-inset-top').matches47,true);
  for(const u of ['100vh','100svh','100lvh','100dvh'])assert.equal(report.viewportUnits[u].height,844);
  for(const e of ['html','body','root','currentScreen']){assert.equal(typeof report.elements[e].rect.bottom,'number');assert(report.elements[e].computed.padding);assert(report.elements[e].computed.margin);assert('maxHeight' in report.elements[e].computed)}
@@ -36,7 +36,7 @@ const base=process.env.TEST_URL||'http://127.0.0.1:5173/nanairo-drops/';
  await page.locator('#viewport-debug[open]').waitFor();await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
  await page.locator('[data-close]').tap();await page.locator('#start').tap();await page.locator('#map-screen').waitFor({state:'visible'});
  await page.locator('#settings').tap();await page.locator('#open-viewport-debug').tap();await page.locator('#viewport-debug[open]').waitFor();
- await page.waitForFunction(()=>{const t=document.querySelector('#viewport-debug textarea');return t?.value&&JSON.parse(t.value).elements.currentScreen.id==='map-screen'});
+ await page.waitForFunction(()=>{const t=document.querySelector('#viewport-debug textarea');return t?.value.startsWith('{')&&JSON.parse(t.value).elements.currentScreen.id==='map-screen'});
  await page.locator('[data-target]').selectOption('scroll');await page.locator('[data-apply]').tap();assert.equal(await page.locator('.map-scroll').evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(255, 0, 255)');
  await page.keyboard.press('Escape');assert.equal(await page.locator('.map-scroll').evaluate(e=>e.style.getPropertyValue('background-color')),'');
  assert.deepEqual(errors,[]);console.log('PASS normal launch hidden, PWA TOP long-press, map settings entry, map color and cancel restore');await context.close();

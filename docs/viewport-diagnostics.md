@@ -1,4 +1,4 @@
-# iPhone PWA内の画面診断（v9）
+# iPhone PWA内の画面診断（v10）
 
 この変更は計測用です。高さ計算・画像・座標・セーブデータは修正していません。
 47 CSS pxは比較する参照値だけで、画面高に加算することはありません。
@@ -6,7 +6,7 @@
 ## iPhoneで開く
 
 オンラインでPWAを完全に終了し、起動し直してください。初回の更新には素材の取得が必要です。
-パネル上部のビルド番号がv9-…になっていることを確認してください。
+パネル上部のビルド番号がv10-…になっていることを確認してください。
 
 - TOP: 「ナナイロ ドロップス」のロゴを2秒長押し。
 - マップ: 歯車の「設定」→「画面の診断」。
@@ -37,7 +37,7 @@
 
 ## 収集する値
 
-1. HTMLに埋め込んだビルド番号v9-ソースハッシュ。再ビルドでソースが変わると番号も変わります。
+1. HTMLに埋め込んだビルド番号v10-ソースハッシュ。再ビルドでソースが変わると番号も変わります。
 2. display-mode/ios standalone、devicePixelRatio。
 3. screen幅/高さ、window内側の幅/高さ、documentElement.client幅/高さ。
 4. visualViewportの幅/高さ/offsetTop/offsetLeft/scale。
@@ -55,7 +55,7 @@ meta/manifestは現在の配信内容であり、iOSがホーム画面追加時�
 ## 既存コードの監査結果
 
 - 共通mainは--app-height（未設定時100dvh）、html/bodyは100%、margin/paddingは0。
-- viewport.jsはPWAでinnerHeight/clientHeight/100dvhを比較。ブラウザでは100dvhを使用。
+- viewport.jsはPWAで独立した100vhを使用し、ブラウザは100dvhを使用。
 - visualViewport.heightは既存の診断値として保持し、resize通知を監視。画面高へ直接代入していません。
 - 本番画面の高さに100svhを使う処理、Safe Areaや固定ツールバー高を引く処理はありません。
 - TOPのheight-safeBottomはアートボードの上下位置制約であり、画面の高さを縮める処理ではありません。
@@ -79,3 +79,12 @@ scripts/check-viewport-debug.cjsで以下をChromiumのモバイル/PWA相当環
 - 既存の50座標、スクロール、戻る、保存値保持の回帰テスト。
 
 実機での数値と色テストの結果を受け取ってから、下端の修正方針を判断します。
+
+## v10の倍率調査
+
+100vh/100dvh/mainと、パネルを開く前・直後・再計測時のscaleを同じ結果に含めます。
+visualViewportのresize履歴も最大12件保持します。横はみ出しはアプリとパネルを分け、
+幅・最小幅・zoom・transform・クリップ祖先を記録します。
+47px比較ではDOMの値をvisualViewport.scaleで補正してからscreen.heightと比べます。
+生のDOM高さとscreen.heightは直接比較しません。パネルの幅にも明示的な上限を設けました。
+倍率0.5の発生原因は実機の開く前後の計測で判断します。

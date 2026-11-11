@@ -1,7 +1,7 @@
-import {installViewportDebug} from './viewport-debug.js?v=9';
-import {fitTitle} from './title-screen.js?v=8';
-import {initializeMap,openMap} from './map.js?v=8';
-import './game-touch.js?v=8';
+import {installViewportDebug} from './viewport-debug.js?v=10';
+import {fitTitle} from './title-screen.js?v=10';
+import {initializeMap,openMap} from './map.js?v=10';
+import './game-touch.js?v=10';
 const title=document.querySelector('#title-screen');
 const map=document.querySelector('#map-screen');
 const start=document.querySelector('#start');
@@ -41,7 +41,7 @@ if('serviceWorker' in navigator){
     // Fresh installs already loaded the latest page; only an upgrade needs a reload.
     if(controlledAtLoad&&!reloading){reloading=true;location.reload()}
   });
-  navigator.serviceWorker.register('./sw.js?v=9',{updateViaCache:'none'}).catch(error=>console.warn('オフライン機能を登録できませんでした',error));
+  navigator.serviceWorker.register('./sw.js?v=10',{updateViaCache:'none'}).catch(error=>console.warn('オフライン機能を登録できませんでした',error));
 }
 
 installViewportDebug();

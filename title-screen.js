@@ -1,5 +1,5 @@
-import {syncViewport} from './viewport.js?v=8';
-import {coverGeometry} from './title-layout.js?v=8';
+import {syncViewport} from './viewport.js?v=10';
+import {coverGeometry} from './title-layout.js?v=10';
 const screen = document.querySelector('#title-screen');
 const art = screen.querySelector('.title-art');
 export function fitTitle() {

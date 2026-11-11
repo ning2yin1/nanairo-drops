@@ -77,9 +77,9 @@ CHROMIUM=/path/to/chromium node scripts/check-offline.cjs
 ## PWAの下端と共通ビューポート
 
 `viewport.js`が共通ルートの高さを一元管理します。TOP/マップはその領域全体を覆い、
-Safe Areaで背景やスクロール領域を縮めません。PWAでは短いvisualViewport.heightを
-そのまま画面高に使わず、innerHeight/clientHeight/100dvhを比較します。
-ブラウザ版はCSS100dvhに追従します。詳細な数値とスクリーンショットは
+Safe Areaで背景やスクロール領域を縮めません。PWAでは独立した100vhプローブを画面高の基準にします。
+ブラウザ版は別の100dvhプローブに追従します。
+innerHeight/clientHeightが短くてもPWAの100vhを短い値で上書きしません。詳細な数値とスクリーンショットは
 [PWAの下端修正記録](docs/pwa-viewport-fix.md)を参照してください。
 `CHROMIUM=/path/to/chromium node scripts/check-viewport.cjs`で回帰テストを実行できます。
 
@@ -89,3 +89,5 @@ TOPロゴを2秒長押し、またはマップの設定から「画面の診断�
 `?debugViewport=1`でも開きます。通常起動では表示しません。
 [起動・コピー・背景色テストの説明](docs/viewport-diagnostics.md)を参照してください。
 高さ補正は行わず、実機の数値を取得する機能です。
+
+最新の実機計測に基づく変更は[standaloneの100vh修正](docs/standalone-height-v10.md)を参照してください。

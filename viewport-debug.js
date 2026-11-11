@@ -1,6 +1,7 @@
-const DIAGNOSTIC_VERSION='viewport-diagnostics-v9';
+const DIAGNOSTIC_VERSION='viewport-diagnostics-v10';
 let panel, output, summary, status, lastFocus, colorChange, manifestPromise;
 let holdTimer, holdPoint;
+let panelSession=null;
 const meta=name=>document.querySelector(`meta[name="${name}"]`)?.content??null;
 function currentScreen(){return document.querySelector('main > .screen:not([hidden])')}
 function measureElement(element){
@@ -8,7 +9,7 @@ function measureElement(element){
   const r=element.getBoundingClientRect(),s=getComputedStyle(element);
   return {tag:element.tagName.toLowerCase(),id:element.id||null,visible:element.getClientRects().length>0,
     rect:{top:r.top,bottom:r.bottom,left:r.left,right:r.right,width:r.width,height:r.height},
-    computed:{display:s.display,position:s.position,boxSizing:s.boxSizing,height:s.height,minHeight:s.minHeight,maxHeight:s.maxHeight,
+    computed:{display:s.display,position:s.position,boxSizing:s.boxSizing,width:s.width,minWidth:s.minWidth,maxWidth:s.maxWidth,zoom:s.zoom??null,transform:s.transform,overflowX:s.overflowX,overflowY:s.overflowY,height:s.height,minHeight:s.minHeight,maxHeight:s.maxHeight,
       padding:{top:s.paddingTop,right:s.paddingRight,bottom:s.paddingBottom,left:s.paddingLeft},
       margin:{top:s.marginTop,right:s.marginRight,bottom:s.marginBottom,left:s.marginLeft},
       backgroundColor:s.backgroundColor,backgroundImage:s.backgroundImage},
@@ -22,11 +23,34 @@ function measureProbes(){
   const viewportUnits={};
   for(const unit of ['vh','svh','lvh','dvh']){
     const supported=CSS.supports('height',`100${unit}`);
-    const probe=document.createElement('div');probe.style.cssText=`position:fixed;top:0;left:0;width:0;height:100${unit};visibility:hidden;pointer-events:none`;
+    const probe=document.createElement('div');probe.dataset.viewportUnitProbe=unit;probe.style.cssText=`position:fixed;top:0;left:0;width:0;height:100${unit};visibility:hidden;pointer-events:none`;
     if(supported)document.body.append(probe);
     viewportUnits[`100${unit}`]={supported,height:supported?probe.getBoundingClientRect().height:null};probe.remove();
   }
   return {safeArea,viewportUnits};
+}
+function scaleSnapshot(label){
+  const vv=window.visualViewport;
+  const box=panel?.open?panel.getBoundingClientRect():null;
+  return {viewportMeta:meta('viewport'),focusedElement:document.activeElement?.id||document.activeElement?.tagName||null,panelBounds:box?{left:box.left,right:box.right,width:box.width}:null,label,time:performance.now(),innerWidth,innerHeight,clientWidth:document.documentElement.clientWidth,clientHeight:document.documentElement.clientHeight,
+    visualViewport:vv?{width:vv.width,height:vv.height,scale:vv.scale,offsetTop:vv.offsetTop,offsetLeft:vv.offsetLeft}:null,
+    documentScrollWidth:document.documentElement.scrollWidth,bodyScrollWidth:document.body.scrollWidth,
+    screenToInnerWidthRatio:innerWidth?screen.width/innerWidth:null};
+}
+function widthAudit(){
+  const viewportWidth=document.documentElement.clientWidth;
+  const offenders=[],panelOffenders=[];
+  for(const element of document.body.querySelectorAll('*')){
+    if(!element.getClientRects().length)continue;
+    const diagnostic=!!element.closest('#viewport-debug');
+    const css=getComputedStyle(element);if(css.visibility==='hidden')continue;
+    const r=element.getBoundingClientRect();if(r.left>=-1&&r.right<=viewportWidth+1)continue;
+    const clippedBy=[];
+    for(let parent=element.parentElement;parent;parent=parent.parentElement){if(['hidden','clip','auto','scroll'].includes(getComputedStyle(parent).overflowX))clippedBy.push(parent.id||parent.tagName.toLowerCase())}
+    (diagnostic?panelOffenders:offenders).push({tag:element.tagName.toLowerCase(),id:element.id||null,className:element.className,left:r.left,right:r.right,width:r.width,
+      computedWidth:css.width,minWidth:css.minWidth,maxWidth:css.maxWidth,zoom:css.zoom??null,transform:css.transform,clippedBy});
+  }
+  return {viewportWidth,documentScrollWidth:document.documentElement.scrollWidth,bodyScrollWidth:document.body.scrollWidth,total:offenders.length,offenders:offenders.slice(0,30),diagnosticPanel:{element:measureElement(panel),overflowCount:panelOffenders.length,offenders:panelOffenders.slice(0,15)},note:'はみ出しが祖先でクリップされている場合、それだけでページ幅拡大の原因とは断定しません。'};
 }
 async function readManifest(){
   if(!manifestPromise){
@@ -39,22 +63,30 @@ export async function collectViewportReport(){
   const active=currentScreen(), root=document.querySelector('main');
   const elements={html:measureElement(document.documentElement),body:measureElement(document.body),root:measureElement(root),currentScreen:measureElement(active),mapScroll:measureElement(document.querySelector('.map-scroll'))};
   const {safeArea,viewportUnits}=measureProbes();
-  const compare=(label,value)=>({label,value,deltaFrom47:value-47,matches47:Math.abs(value-47)<=1});
+  const vv=window.visualViewport;
+  const scale=vv?.scale??1,offsetTop=vv?.offsetTop??0;
+  const compare=(label,rawDomValue)=>({label,rawDomCssPx:rawDomValue,value:rawDomValue*scale,unit:'screen CSS px',deltaFrom47:rawDomValue*scale-47,matches47:Math.abs(rawDomValue*scale-47)<=1});
   const comparisons=[compare('safe-area-inset-top',safeArea.top),compare('safe-area-inset-bottom',safeArea.bottom)];
+  const screenProjection={scale,offsetTop,note:'DOM座標をvisualViewport.scaleで補正。画面上端とvisual viewport原点が一致する前提の参考値で、未確認のネイティブ領域は含みません。',elements:{}};
   for(const [name,element] of [['root',elements.root],['currentScreen',elements.currentScreen]])if(element){
     comparisons.push(compare(`innerHeight - ${name}.bottom`,innerHeight-element.rect.bottom));
     comparisons.push(compare(`clientHeight - ${name}.bottom`,document.documentElement.clientHeight-element.rect.bottom));
-    comparisons.push(compare(`screen.height - ${name}.bottom`,screen.height-element.rect.bottom));
+    const projectedBottom=(element.rect.bottom-offsetTop)*scale;
+    const gap=screen.height-projectedBottom;
+    screenProjection.elements[name]={projectedBottomScreenCssPx:projectedBottom,screenHeightGapCssPx:gap};
+    comparisons.push({label:`screen.height - projected ${name}.bottom`,value:gap,unit:'screen CSS px',deltaFrom47:gap-47,matches47:Math.abs(gap-47)<=1});
   }
   if(elements.root&&elements.currentScreen)comparisons.push(compare('root.bottom - currentScreen.bottom',elements.root.rect.bottom-elements.currentScreen.rect.bottom));
-  const vv=window.visualViewport;
   const report={diagnosticVersion:DIAGNOSTIC_VERSION,build:meta('nanairo-build')||'unbuilt-source',measuredAt:new Date().toISOString(),
     mode:{standalone:matchMedia('(display-mode: standalone)').matches||navigator.standalone===true,mediaStandalone:matchMedia('(display-mode: standalone)').matches,iosStandalone:navigator.standalone??null,devicePixelRatio},
     screen:{width:screen.width,height:screen.height,availWidth:screen.availWidth,availHeight:screen.availHeight},
     window:{innerWidth,innerHeight},documentElement:{clientWidth:document.documentElement.clientWidth,clientHeight:document.documentElement.clientHeight},
     visualViewport:vv?{width:vv.width,height:vv.height,offsetTop:vv.offsetTop,offsetLeft:vv.offsetLeft,scale:vv.scale}:null,
-    safeArea,viewportUnits,elements,
-    comparison47:{referenceCssPx:47,diagnosticOnly:true,values:comparisons,note:'47は比較用です。高さの補正には使用しません。screen.heightはブラウザUI等を含む場合があります。'},
+    safeArea,viewportUnits,elements,screenProjection,
+    heightBasis:document.querySelector('main').dataset.viewportHeightBasis??null,
+    scaleTimeline:panelSession?{...panelSession,latest:scaleSnapshot('collect')}:null,
+    horizontalLayout:widthAudit(),
+    comparison47:{referenceCssPx:47,diagnosticOnly:true,values:comparisons,note:'47はscreen CSS pxの比較用。DOMはscaleで補正し、高さ補正には使用しません。screen.heightはブラウザUI等を含む場合があります。'},
     settings:{viewport:meta('viewport'),statusBarStyle:meta('apple-mobile-web-app-status-bar-style'),webAppCapable:meta('apple-mobile-web-app-capable'),manifest:null,note:'meta/manifestは現在配信された設定です。iOSがインストール時に保持した値は取得できません。'},
     serviceWorker:{controller:navigator.serviceWorker?.controller?.scriptURL??null},
     colorProbe:colorChange?{target:colorChange.label,color:colorChange.color}:null,
@@ -73,7 +105,7 @@ async function refresh(){
   try{
     const report=await collectViewportReport();
     output.value=JSON.stringify(report,null,2);
-    summary.textContent=`ビルド: ${report.build}\n${report.mode.standalone?'PWA / standalone':'ブラウザ'}・DPR ${report.mode.devicePixelRatio}\ninnerHeight ${report.window.innerHeight} / clientHeight ${report.documentElement.clientHeight} / visualViewport ${report.visualViewport?.height??'なし'}\nsafe-top ${report.safeArea.top} / safe-bottom ${report.safeArea.bottom}\n47pxに一致（±1）: ${report.comparison47.values.filter(v=>v.matches47).map(v=>v.label).join('、')||'なし'}`;
+    summary.textContent=`ビルド: ${report.build}\n${report.mode.standalone?'PWA / standalone':'ブラウザ'}・DPR ${report.mode.devicePixelRatio}\ninnerHeight ${report.window.innerHeight} / clientHeight ${report.documentElement.clientHeight} / visualViewport ${report.visualViewport?.height??'なし'}\n100vh ${report.viewportUnits['100vh'].height} / 100dvh ${report.viewportUnits['100dvh'].height} / 基準 ${report.heightBasis}\nscale 前 ${report.scaleTimeline?.beforeOpen.visualViewport?.scale??'不明'} → 後 ${report.scaleTimeline?.afterOpen?.visualViewport?.scale??'計測中'} → 現在 ${report.visualViewport?.scale??'不明'}\nsafe-top ${report.safeArea.top} / safe-bottom ${report.safeArea.bottom}\n47pxに一致（±1）: ${report.comparison47.values.filter(v=>v.matches47).map(v=>v.label).join('、')||'なし'}`;
     panel.querySelector('[data-copy]').disabled=false;
   }catch(error){status.textContent=`計測できませんでした: ${error}`}
 }
@@ -123,12 +155,15 @@ function createPanel(){
 }
 export function openViewportDebug(){
   clearTimeout(holdTimer);
+  if(panel?.open)return;
+  panelSession={beforeOpen:scaleSnapshot('beforeOpen'),afterOpen:null,events:[]};
   if(!panel)createPanel();
-  if(panel.open)return;
   lastFocus=document.activeElement;panel.classList.remove('is-collapsed');panel.querySelector('[data-collapse]').textContent='折りたたむ';panel.querySelector('[data-collapse]').setAttribute('aria-expanded','true');
-  status.textContent='';refresh();panel.showModal();
+  status.textContent='';output.value='計測中…';panel.querySelector('[data-copy]').disabled=true;panel.showModal();
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{panelSession.afterOpen=scaleSnapshot('afterOpen');refresh()}));
 }
 export function installViewportDebug(){
+  window.visualViewport?.addEventListener('resize',()=>{if(panel?.open&&panelSession){panelSession.events.push(scaleSnapshot('visualViewport.resize'));if(panelSession.events.length>12)panelSession.events.shift()}});
   // A long press on the TOP logo is available even when the installed start URL has no query.
   document.addEventListener('pointerdown',event=>{
     if(!event.isPrimary||event.button!==0||panel?.open)return;

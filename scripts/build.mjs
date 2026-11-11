@@ -3,7 +3,7 @@ import {mkdir,rm,copyFile,cp,readFile,readdir,writeFile} from 'node:fs/promises'
 const files=['index.html','styles.css','title.css','map.css','app.js','title-layout.js','title-screen.js','map.js','progress.js','viewport.js','viewport-debug.js','viewport-debug.css','game-touch.js','sw.js','manifest.webmanifest'];
 const hash=createHash('sha256');
 for(const name of [...files,'scripts/build.mjs'])hash.update(name).update(await readFile(name));
-const buildId=`v9-${hash.digest('hex').slice(0,12)}`;
+const buildId=`v10-${hash.digest('hex').slice(0,12)}`;
 await rm('dist',{recursive:true,force:true});await mkdir('dist',{recursive:true});
 for(const name of files)await copyFile(name,`dist/${name}`);
 await cp('assets','dist/assets',{recursive:true});

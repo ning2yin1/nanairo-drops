@@ -1,5 +1,5 @@
-import {syncViewport} from './viewport.js?v=8';
-import {readProgress,stageState} from './progress.js?v=8';
+import {syncViewport} from './viewport.js?v=10';
+import {readProgress,stageState} from './progress.js?v=10';
 const base = new URL('./nanairo-map-assets/nanairo-map-assets/',import.meta.url);
 const asset = path => new URL(path,base).href;
 const screen = document.querySelector('#map-screen');

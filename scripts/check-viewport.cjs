@@ -19,9 +19,9 @@ const base=process.env.TEST_URL||'http://127.0.0.1:5173/nanairo-drops/';
   await page.goto(base);
   await page.addStyleTag({content:'#title-screen{--safe-top:62px;--safe-bottom:34px}.map-header{padding-top:62px}#locate-current{bottom:50px}'});
   const measure=()=>page.evaluate(async()=>{
-   const m=await import('./viewport.js?v=8');m.syncViewport();return m.viewportDiagnostics();
+   const m=await import('./viewport.js?v=10');m.syncViewport();return m.viewportDiagnostics();
   });
-  await page.evaluate(async()=>{(await import('./title-screen.js?v=8')).fitTitle();await Promise.all([...document.querySelectorAll('#title-screen img')].map(i=>i.decode()))});
+  await page.evaluate(async()=>{(await import('./title-screen.js?v=10')).fitTitle();await Promise.all([...document.querySelectorAll('#title-screen img')].map(i=>i.decode()))});
   const top=await measure();
   for(const selector of ['html','body','main','#title-screen'])assert.equal(top.elements[selector].bottom,scenario.height,selector);
   assert.equal(top.standalone,scenario.standalone);
