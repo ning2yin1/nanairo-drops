@@ -17,3 +17,14 @@ async function walk(path){const result=[];for(const entry of await readdir(path,
 const precache=(await walk('dist')).filter(path=>!['./sw.js','./404.html'].includes(path));
 await writeFile('dist/precache.json',JSON.stringify(precache));
 console.log('Built TOP + map in dist/ with relative paths and a complete offline asset list.');
+
+// Separate stage-1 installation; do not include it in the game's precache.
+const checkHtml=await readFile('display-check/index.html','utf8');
+const checkManifest=await readFile('display-check/manifest.webmanifest','utf8');
+const checkId=`s1-${createHash('sha256').update(checkHtml).update(checkManifest).digest('hex').slice(0,12)}`;
+const checkDirectory=`dist/display-check/${checkId}`;
+await mkdir(checkDirectory,{recursive:true});
+await writeFile(`${checkDirectory}/index.html`,checkHtml.replaceAll('__CHECK_BUILD__',checkId));
+await writeFile(`${checkDirectory}/manifest.webmanifest`,checkManifest);
+await writeFile(`${checkDirectory}/fresh.json`,JSON.stringify({build:checkId}));
+console.log(`Stage 1 only: /nanairo-drops/display-check/${checkId}/`);

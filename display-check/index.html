@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="表示確認 S1">
+<meta name="theme-color" content="#086f94">
+<link rel="manifest" href="./manifest.webmanifest">
+<title>表示確認 S1</title>
+<style>
+*{box-sizing:border-box}
+html,body{width:100%;height:100%;margin:0;padding:0;background:#111}
+#surface{position:fixed;inset:0;display:grid;place-items:center;overflow:hidden;background:#086f94;color:#fff}
+.edge{position:absolute;left:0;right:0;height:6px;background:#ffeb00}
+.top{top:0}.bottom{bottom:0}
+.label{position:absolute;left:12px;font:700 14px/1.4 sans-serif}
+.top-label{top:calc(10px + env(safe-area-inset-top,0px))}
+.bottom-label{bottom:calc(10px + env(safe-area-inset-bottom,0px))}
+article{width:calc(100% - 24px);max-width:36rem;min-width:0}
+h1{font:700 20px/1.4 sans-serif;margin:0 0 12px}
+pre{margin:0;font:16px/1.5 ui-monospace,monospace;white-space:pre-wrap;overflow-wrap:anywhere}
+</style>
+</head>
+<body>
+<main id="surface">
+<div class="edge top"></div><span class="label top-label">↑ 上端：黄色の線</span>
+<article><h1>表示確認・第1段階</h1><pre id="metrics">BUILD __CHECK_BUILD__
+計測中</pre></article>
+<div class="edge bottom"></div><span class="label bottom-label">↓ 下端：黄色の線</span>
+</main>
+<script>
+'use strict';
+const BUILD='__CHECK_BUILD__';
+const surface=document.getElementById('surface');
+const metrics=document.getElementById('metrics');
+let verification='確認中（まだ判定しない）';
+let requestNumber=0;
+function display(){
+ const r=surface.getBoundingClientRect(),v=window.visualViewport;
+ const standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+ const controller=navigator.serviceWorker?.controller;
+ metrics.textContent=[
+  'BUILD '+BUILD,
+  'standalone: '+standalone+' / DPR: '+devicePixelRatio,
+  'screen: '+screen.width+' × '+screen.height,
+  'inner: '+innerWidth+' × '+innerHeight,
+  'client: '+document.documentElement.clientWidth+' × '+document.documentElement.clientHeight,
+  'visual: '+(v?`${v.width} × ${v.height} / scale ${v.scale} / top ${v.offsetTop}`:'なし'),
+  'surface: top '+r.top+' / bottom '+r.bottom+' / height '+r.height,
+  'SW: '+(controller?new URL(controller.scriptURL).pathname:'制御なし（登録しません）'),
+  verification
+ ].join('\n');
+}
+async function verifyNetwork(){
+ const current=++requestNumber;
+ const controller=navigator.serviceWorker?.controller;
+ verification='確認中（まだ判定しない）';display();
+ try{
+  const url=new URL('./fresh.json',location.href);
+  url.searchParams.set('nonce',Date.now()+'-'+Math.random().toString(36).slice(2));
+  const response=await fetch(url,{cache:'no-store'});
+  if(!response.ok)throw Error('HTTP '+response.status);
+  const body=await response.json();
+  if(body.build!==BUILD)throw Error('ビルドが一致しません');
+  if(controller!==navigator.serviceWorker?.controller)throw Error('SW切替中。再起動してください');
+  if(controller&&response.headers.get('X-Nanairo-Check-Route')!=='network-only-v1')throw Error('旧SWの影響あり。既存アプリをオンラインで起動後、再確認してください');
+  if(current===requestNumber)verification='ONLINE OK / '+(controller?'SW経路分離確認済み':'SW制御なし');
+ }catch(error){if(current===requestNumber)verification='判定不可: '+error.message}
+ display();
+}
+window.addEventListener('resize',display);
+window.addEventListener('pageshow',()=>{display();verifyNetwork()});
+window.visualViewport?.addEventListener('resize',display);
+window.addEventListener('offline',()=>{++requestNumber;verification='判定不可: オフライン';display()});
+window.addEventListener('online',verifyNetwork);
+navigator.serviceWorker?.addEventListener('controllerchange',verifyNetwork);
+display();verifyNetwork();
+</script>
+</body>
+</html>
