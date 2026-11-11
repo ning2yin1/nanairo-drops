@@ -47,7 +47,7 @@ const shot=process.env.SCREENSHOT_DIR;
   });assert(threeDigits.offset<.1&&threeDigits.fits);
   const saveBefore=await p.evaluate(()=>JSON.stringify({...localStorage}));
   await p.locator('[data-stage="2"]').evaluate(el=>el.click());assert.equal(await p.locator('#game-dialog').isVisible(),false);
-  await p.locator('[data-stage="1"]').tap();await p.locator('#game-dialog').waitFor({state:'visible'});assert.match(await p.locator('#dialog-title').textContent(),/1/);await p.locator('#game-dialog button').tap();
+  await p.locator('[data-stage="1"]').tap();await p.locator('#game-dialog').waitFor({state:'visible'});assert.match(await p.locator('#dialog-title').textContent(),/1/);await p.locator('#game-dialog form button').tap();
   assert.equal(await p.evaluate(()=>JSON.stringify({...localStorage})),saveBefore);
   const headerBefore=await p.locator('.map-header').boundingBox();
   const scroller=p.locator('.map-scroll');const scrollBefore=await scroller.evaluate(e=>e.scrollTop);
@@ -63,7 +63,7 @@ const shot=process.env.SCREENSHOT_DIR;
   await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{id:0,x:width*.2,y:height*.4},{id:1,x:width*.8,y:height*.4}]});
   await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
   assert.equal(await p.evaluate(()=>visualViewport.scale),1);
-  await p.locator('#settings').tap();await p.locator('#game-dialog button').tap();
+  await p.locator('#settings').tap();await p.locator('#game-dialog form button').tap();
   if(width===402&&shot){await p.locator('.map-background').last().evaluate(i=>i.decode());await p.screenshot({path:`${shot}/map-402x874.png`})}
   if(width===402){
     await p.addStyleTag({content:'.map-header{padding-top:62px}#locate-current{bottom:50px}'});
@@ -85,7 +85,7 @@ const shot=process.env.SCREENSHOT_DIR;
   assert.equal(await p.locator('.cleared').count(),current-1);assert.equal(await p.locator('.map-rabbit').count(),1);
   const pin=p.locator(`[data-stage="${current}"]`);assert.equal(await pin.getAttribute('aria-current'),'step');
   if(current!==5)assert.equal(await pin.locator('.difficulty').count(),1);
-  await p.waitForTimeout(100);await pin.tap();await p.locator('#game-dialog button').tap();
+  await p.waitForTimeout(100);await pin.tap();await p.locator('#game-dialog form button').tap();
   assert.deepEqual(await p.evaluate(()=>JSON.parse(localStorage.getItem('nanairo-drops-progress'))),state);assert.equal(await p.evaluate(()=>localStorage.getItem('unrelated-save')),'keep');
   if(current===5&&shot){await p.locator('[data-area="1"] .map-background').evaluate(i=>i.decode());await p.screenshot({path:`${shot}/map-preview-stage5.png`})}
   console.log('PASS saved state + difficulty overlay:',current);await ctx.close();

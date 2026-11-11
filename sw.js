@@ -1,5 +1,5 @@
-const CACHE='nanairo-drops-v8';
-const VERSIONED=['./','./index.html','./styles.css?v=8','./title.css?v=8','./map.css?v=8','./app.js?v=8','./title-layout.js?v=8','./title-screen.js?v=8','./map.js?v=8','./progress.js?v=8','./game-touch.js?v=8','./viewport.js?v=8'];
+const CACHE='nanairo-drops-v9';
+const VERSIONED=['./','./index.html','./styles.css?v=8','./title.css?v=8','./map.css?v=8','./app.js?v=9','./title-layout.js?v=8','./title-screen.js?v=8','./map.js?v=8','./progress.js?v=8','./game-touch.js?v=8','./viewport.js?v=8','./viewport-debug.js?v=9','./viewport-debug.css?v=9'];
 self.addEventListener('install',event=>event.waitUntil((async()=>{
   const response=await fetch('./precache.json',{cache:'reload'});if(!response.ok)throw Error('Offline manifest unavailable');
   const files=[...new Set([...await response.json(),...VERSIONED])];const cache=await caches.open(CACHE);

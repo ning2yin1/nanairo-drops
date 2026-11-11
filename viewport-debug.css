@@ -1,0 +1,11 @@
+/* Diagnostic UI only: never changes the game viewport or image layout. */
+.viewport-debug{position:fixed;top:max(8px,env(safe-area-inset-top,0px));left:8px;right:8px;bottom:auto;margin:0 auto;width:auto;max-width:680px;max-height:70vh;max-height:min(70dvh,calc(100dvh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - 16px));padding:12px;border:2px solid #435568;border-radius:12px;background:#f7f9fc;color:#17212d;font:14px/1.5 -apple-system,BlinkMacSystemFont,sans-serif;box-shadow:0 4px 24px #0005;overflow:hidden;touch-action:pan-y;-webkit-user-select:text;user-select:text}
+.viewport-debug[open]{display:flex;flex-direction:column}
+.viewport-debug::backdrop{background:transparent}
+.viewport-debug-toolbar,.viewport-debug-actions{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+.viewport-debug-toolbar{flex:none}.viewport-debug-toolbar strong{margin-right:auto}.viewport-debug-content{min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.viewport-debug.is-collapsed .viewport-debug-content{display:none}
+.viewport-debug button,.viewport-debug select{min-height:44px;padding:8px;border:1px solid #65758a;border-radius:6px;background:#fff;color:#17212d;font:inherit;touch-action:manipulation}
+.viewport-debug button:disabled{opacity:.5}.viewport-debug select{font-size:16px;max-width:100%}
+.viewport-debug label{display:block;margin:8px 0}.viewport-debug textarea{display:block;width:100%;height:210px;min-height:100px;margin-top:8px;padding:8px;border:1px solid #65758a;border-radius:4px;background:#fff;color:#15202b;font:16px/1.45 ui-monospace,monospace;touch-action:pan-y;-webkit-user-select:text!important;user-select:text!important;-webkit-touch-callout:default}
+.viewport-debug-summary{white-space:pre-wrap;overflow-wrap:anywhere}.viewport-debug fieldset{min-width:0;margin:12px 0;padding:8px;border:1px solid #65758a}.viewport-debug p{margin:8px 0}.viewport-debug-status{font-weight:700}

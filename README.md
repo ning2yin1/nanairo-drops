@@ -82,3 +82,10 @@ Safe Areaで背景やスクロール領域を縮めません。PWAでは短いvi
 ブラウザ版はCSS100dvhに追従します。詳細な数値とスクリーンショットは
 [PWAの下端修正記録](docs/pwa-viewport-fix.md)を参照してください。
 `CHROMIUM=/path/to/chromium node scripts/check-viewport.cjs`で回帰テストを実行できます。
+
+## iPhone内で診断する
+
+TOPロゴを2秒長押し、またはマップの設定から「画面の診断」で開けます。
+`?debugViewport=1`でも開きます。通常起動では表示しません。
+[起動・コピー・背景色テストの説明](docs/viewport-diagnostics.md)を参照してください。
+高さ補正は行わず、実機の数値を取得する機能です。

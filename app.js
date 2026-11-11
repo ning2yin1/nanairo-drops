@@ -1,3 +1,4 @@
+import {installViewportDebug} from './viewport-debug.js?v=9';
 import {fitTitle} from './title-screen.js?v=8';
 import {initializeMap,openMap} from './map.js?v=8';
 import './game-touch.js?v=8';
@@ -8,6 +9,7 @@ const errorMessage=document.querySelector('#image-error');
 const dialog=document.querySelector('#game-dialog');
 let transitioning=false;
 function showMessage(heading,message){
+  document.querySelector('#open-viewport-debug').hidden=heading!=='設定';
   document.querySelector('#dialog-title').textContent=heading;
   document.querySelector('#dialog-message').textContent=message;
   if(!dialog.open)dialog.showModal();
@@ -39,5 +41,7 @@ if('serviceWorker' in navigator){
     // Fresh installs already loaded the latest page; only an upgrade needs a reload.
     if(controlledAtLoad&&!reloading){reloading=true;location.reload()}
   });
-  navigator.serviceWorker.register('./sw.js?v=8',{updateViaCache:'none'}).catch(error=>console.warn('オフライン機能を登録できませんでした',error));
+  navigator.serviceWorker.register('./sw.js?v=9',{updateViaCache:'none'}).catch(error=>console.warn('オフライン機能を登録できませんでした',error));
 }
+
+installViewportDebug();

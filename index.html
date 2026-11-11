@@ -6,6 +6,7 @@
 <meta name="theme-color" content="#a81208">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="nanairo-build" content="__NANAIRO_BUILD_ID__">
 <meta name="description" content="懐かしくて、あたらしい。ナナイロ ドロップス。">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./assets/icon-192.png">
@@ -13,6 +14,7 @@
 <link rel="stylesheet" href="./styles.css?v=8">
 <link rel="stylesheet" href="./title.css?v=8">
 <link rel="stylesheet" href="./map.css?v=8">
+<link rel="stylesheet" href="./viewport-debug.css?v=9">
 <title>ナナイロ ドロップス</title>
 </head>
 <body>
@@ -42,7 +44,7 @@
 </section>
 </main>
 <p id="image-error" role="alert" hidden>画像を読み込めませんでした。通信状態を確認して、再度ページを開いてください。</p>
-<dialog id="game-dialog" class="game-dialog" aria-labelledby="dialog-title"><h2 id="dialog-title"></h2><p id="dialog-message"></p><form method="dialog"><button type="submit">もどる</button></form></dialog>
-<script type="module" src="./app.js?v=8"></script>
+<dialog id="game-dialog" class="game-dialog" aria-labelledby="dialog-title"><h2 id="dialog-title"></h2><p id="dialog-message"></p><button id="open-viewport-debug" type="button" hidden>画面の診断</button><form method="dialog"><button type="submit">もどる</button></form></dialog>
+<script type="module" src="./app.js?v=9"></script>
 </body>
 </html>
