@@ -1,6 +1,6 @@
 // Only explicitly marked game surfaces lock native gestures. Future map screens
 // can omit this attribute and use touch-action: pan-y pinch-zoom or pan-y.
-const selector = '[data-game-touch="locked"]';
+const selector = '[data-game-touch="locked"], [data-game-touch="pan-y"]';
 function locked(event) { return event.target instanceof Element && event.target.closest(selector); }
 for(const type of ['gesturestart','gesturechange','gestureend']) {
   document.addEventListener(type,event=>{if(locked(event)&&event.cancelable)event.preventDefault();},{passive:false});

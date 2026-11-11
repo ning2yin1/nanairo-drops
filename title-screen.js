@@ -1,4 +1,4 @@
-import {coverGeometry} from './title-layout.js?v=6';
+import {coverGeometry} from './title-layout.js?v=7';
 const screen = document.querySelector('#title-screen');
 const art = screen.querySelector('.title-art');
 export function fitTitle() {
@@ -11,7 +11,6 @@ export function fitTitle() {
   const g = coverGeometry(width,height,
     parseFloat(style.getPropertyValue('--safe-top'))||0,
     parseFloat(style.getPropertyValue('--safe-bottom'))||0);
-  screen.style.setProperty('--art-top',`${g.top}px`);
   Object.assign(art.style,{left:`${g.left}px`,top:`${g.top}px`,width:`${g.width}px`,height:`${g.height}px`});
 }
 new ResizeObserver(fitTitle).observe(screen);

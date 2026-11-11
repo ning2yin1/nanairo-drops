@@ -1,46 +1,43 @@
-import { fitTitle } from './title-screen.js?v=6';
-import './game-touch.js?v=5';
-const title = document.querySelector('#title-screen');
-const preparing = document.querySelector('#preparing-screen');
-const start = document.querySelector('#start');
-const back = document.querySelector('#back');
-let transitioning = false;
-let timer;
-function showPreparing() {
-  if (transitioning || title.hidden) return;
-  transitioning = true;
-  start.disabled = true;
-  start.classList.add('is-pressed');
-  timer = setTimeout(() => {
-    title.hidden = true;
-    preparing.hidden = false;
-    document.querySelector('#preparing-title').focus({preventScroll:true});
-    transitioning = false;
-  }, 130);
+import {fitTitle} from './title-screen.js?v=7';
+import {initializeMap,openMap} from './map.js?v=7';
+import './game-touch.js?v=7';
+const title=document.querySelector('#title-screen');
+const map=document.querySelector('#map-screen');
+const start=document.querySelector('#start');
+const errorMessage=document.querySelector('#image-error');
+const dialog=document.querySelector('#game-dialog');
+let transitioning=false;
+function showMessage(heading,message){
+  document.querySelector('#dialog-title').textContent=heading;
+  document.querySelector('#dialog-message').textContent=message;
+  if(!dialog.open)dialog.showModal();
 }
-function showTitle() {
-  clearTimeout(timer);
-  preparing.hidden = true;
-  title.hidden = false;
-  fitTitle();
-  start.disabled = false;
-  start.classList.remove('is-pressed');
-  transitioning = false;
-  start.focus({preventScroll:true});
+start.addEventListener('click',async()=>{
+  if(transitioning)return;
+  transitioning=true;start.disabled=true;start.classList.add('is-pressed');
+  try{
+    await Promise.all([
+      initializeMap(stage=>showMessage(`ステージ ${stage}`,'ただいま準備中です。もう少しだけお待ちくださいね！')),
+      new Promise(resolve=>setTimeout(resolve,130))
+    ]);
+    title.hidden=true;openMap();errorMessage.hidden=true;
+  }catch(error){errorMessage.textContent='マップを読み込めませんでした。通信状態を確認して、もう一度スタートしてください。';errorMessage.hidden=false;}
+  finally{transitioning=false;start.disabled=false;start.classList.remove('is-pressed')}
+});
+document.querySelector('#map-home').addEventListener('click',()=>{
+  map.hidden=true;title.hidden=false;fitTitle();start.focus({preventScroll:true});
+});
+document.querySelector('#settings').addEventListener('click',()=>showMessage('設定','設定項目は、ただいま準備中です。'));
+for(const img of document.querySelectorAll('#title-screen img')){
+  const fail=()=>{errorMessage.textContent='画像を読み込めませんでした。通信状態を確認して、再度ページを開いてください。';errorMessage.hidden=false;start.disabled=true};
+  img.addEventListener('error',fail);if(img.complete&&!img.naturalWidth)fail();
 }
-start.addEventListener('click', showPreparing);
-back.addEventListener('click', showTitle);
-for (const img of document.querySelectorAll('#title-screen img')) {
-  const fail = () => { document.querySelector('#image-error').hidden = false; start.disabled = true; };
-  img.addEventListener('error', fail);
-  if (img.complete && !img.naturalWidth) fail();
-}
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js', {updateViaCache:'none'}).then(registration => {
-    registration.update().catch(console.warn);
-    let reloading = false;
-    navigator.serviceWorker.addEventListener('controllerchange', () => {
-      if (!reloading) { reloading = true; location.reload(); }
-    });
-  }).catch(error => console.warn('オフライン機能を登録できませんでした', error)));
+if('serviceWorker' in navigator){
+  const controlledAtLoad=!!navigator.serviceWorker.controller;
+  let reloading=false;
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{
+    // Fresh installs already loaded the latest page; only an upgrade needs a reload.
+    if(controlledAtLoad&&!reloading){reloading=true;location.reload()}
+  });
+  navigator.serviceWorker.register('./sw.js?v=7',{updateViaCache:'none'}).catch(error=>console.warn('オフライン機能を登録できませんでした',error));
 }

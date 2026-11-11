@@ -10,32 +10,39 @@
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./assets/icon-192.png">
 <link rel="icon" href="./assets/icon-192.png">
-<link rel="stylesheet" href="./styles.css?v=6">
-<link rel="stylesheet" href="./title.css?v=6">
+<link rel="stylesheet" href="./styles.css?v=7">
+<link rel="stylesheet" href="./title.css?v=7">
+<link rel="stylesheet" href="./map.css?v=7">
 <title>ナナイロ ドロップス</title>
 </head>
 <body>
 <main>
 <section id="title-screen" class="screen" data-game-touch="locked" aria-label="ナナイロ ドロップス TOP">
-<img class="title-background" src="./assets/title-complete.png" alt="ナナイロ ドロップス。果物と七色の飴をあしらった昭和レトロなお菓子缶" width="707" height="1536" fetchpriority="high" draggable="false">
 <div class="title-art">
-<button id="start" class="start" type="button" aria-label="スタート"></button>
+<img class="title-background" src="./nanairo-map-assets/nanairo-top-assets/title-background.png" alt="ナナイロ ドロップス。果物と七色の飴をあしらった昭和レトロなお菓子缶" width="707" height="1536" fetchpriority="high" draggable="false">
+<button id="start" class="start" type="button" aria-label="スタート"><img src="./nanairo-map-assets/nanairo-top-assets/start-button.png" alt="" width="630" height="204" draggable="false"></button>
 </div>
 </section>
-<section id="preparing-screen" class="screen" data-game-touch="locked" aria-labelledby="preparing-title" hidden>
-<div class="preparing-tin">
-<p class="brand">ナナイロ<br>ドロップス</p>
-<div class="message">
-<p class="small-label">おたのしみは、これから。</p>
-<h1 id="preparing-title" tabindex="-1">ただいま<br>準備中です</h1>
-<div class="drops" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-<p class="note">もう少しだけお待ちくださいね！</p>
+<section id="map-screen" class="screen" data-game-touch="pan-y" aria-labelledby="map-heading" hidden>
+<header class="map-header">
+<div class="map-header-art">
+<img class="header-background" src="./nanairo-map-assets/nanairo-map-assets/ui/header.png" alt="">
+<h1 id="map-heading" class="map-heading" tabindex="-1">ステージマップ</h1>
+<button id="map-home" type="button" aria-label="TOPへもどる">TOP</button>
+<img class="header-stage-frame" src="./nanairo-map-assets/nanairo-map-assets/ui/stage-label.png" alt="">
+<span class="header-label">ステージ</span><span id="current-stage" class="header-value" aria-label="現在ステージ">1</span>
+<img class="header-coin-frame" src="./nanairo-map-assets/nanairo-map-assets/ui/coin-label.png" alt="">
+<img class="header-coin-icon" src="./nanairo-map-assets/nanairo-map-assets/ui/coin-icon.png" alt="所持コイン">
+<span id="coin-count" class="header-value">0</span>
+<button id="settings" type="button" aria-label="設定"><img src="./nanairo-map-assets/nanairo-map-assets/ui/settings.png" alt=""></button>
 </div>
-<button id="back" class="back" type="button">もどる</button>
-</div>
+</header>
+<div class="map-scroll" tabindex="0" aria-label="ステージを選択するマップ"><div class="map-tiles"></div></div>
+<button id="locate-current" type="button">現在地へ</button>
 </section>
 </main>
 <p id="image-error" role="alert" hidden>画像を読み込めませんでした。通信状態を確認して、再度ページを開いてください。</p>
-<script type="module" src="./app.js?v=6"></script>
+<dialog id="game-dialog" class="game-dialog" aria-labelledby="dialog-title"><h2 id="dialog-title"></h2><p id="dialog-message"></p><form method="dialog"><button type="submit">もどる</button></form></dialog>
+<script type="module" src="./app.js?v=7"></script>
 </body>
 </html>
