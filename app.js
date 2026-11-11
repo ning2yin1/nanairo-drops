@@ -1,6 +1,6 @@
-import {fitTitle} from './title-screen.js?v=7';
-import {initializeMap,openMap} from './map.js?v=7';
-import './game-touch.js?v=7';
+import {fitTitle} from './title-screen.js?v=8';
+import {initializeMap,openMap} from './map.js?v=8';
+import './game-touch.js?v=8';
 const title=document.querySelector('#title-screen');
 const map=document.querySelector('#map-screen');
 const start=document.querySelector('#start');
@@ -39,5 +39,5 @@ if('serviceWorker' in navigator){
     // Fresh installs already loaded the latest page; only an upgrade needs a reload.
     if(controlledAtLoad&&!reloading){reloading=true;location.reload()}
   });
-  navigator.serviceWorker.register('./sw.js?v=7',{updateViaCache:'none'}).catch(error=>console.warn('オフライン機能を登録できませんでした',error));
+  navigator.serviceWorker.register('./sw.js?v=8',{updateViaCache:'none'}).catch(error=>console.warn('オフライン機能を登録できませんでした',error));
 }

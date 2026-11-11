@@ -4,7 +4,7 @@ const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright');const asse
  const ctx=await b.newContext({viewport:{width:402,height:874},isMobile:true,hasTouch:true});const p=await ctx.newPage();
  await p.goto(process.env.TEST_URL||'http://127.0.0.1:5173/nanairo-drops/');
  await p.waitForFunction(()=>!!navigator.serviceWorker.controller,{},{timeout:60000});
- assert((await p.evaluate(()=>caches.keys())).includes('nanairo-drops-v7'));
+ assert((await p.evaluate(()=>caches.keys())).includes('nanairo-drops-v8'));
  await p.waitForTimeout(500);
  await ctx.setOffline(true);await p.reload();await p.locator('#start img').evaluate(i=>i.decode());
  await p.locator('#start').tap();await p.locator('#map-screen').waitFor({state:'visible'});

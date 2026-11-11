@@ -1,0 +1,557 @@
+{
+  "environment": "Chromium mobile emulation; standalone flag and shortened visual viewport are simulated, not physical iOS readings",
+  "results": [
+    {
+      "scenario": {
+        "name": "browser",
+        "standalone": false,
+        "height": 874,
+        "inset": 0
+      },
+      "top": {
+        "standalone": false,
+        "innerHeight": 874,
+        "clientHeight": 874,
+        "visualHeight": 874,
+        "visualOffsetTop": 0,
+        "visualScale": 1,
+        "cssDynamicHeight": 874,
+        "elements": {
+          "html": {
+            "top": 0,
+            "bottom": 874,
+            "width": 402,
+            "height": 874,
+            "display": "block",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          "body": {
+            "top": 0,
+            "bottom": 874,
+            "width": 402,
+            "height": 874,
+            "display": "block",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          "main": {
+            "top": 0,
+            "bottom": 874,
+            "width": 402,
+            "height": 874,
+            "display": "block",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          "#title-screen": {
+            "top": 0,
+            "bottom": 874,
+            "width": 402,
+            "height": 874,
+            "display": "block",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          "#map-screen": {
+            "top": 0,
+            "bottom": 0,
+            "width": 0,
+            "height": 0,
+            "display": "none",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          ".map-scroll": {
+            "top": 0,
+            "bottom": 0,
+            "width": 0,
+            "height": 0,
+            "display": "block",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          }
+        }
+      },
+      "map": {
+        "standalone": false,
+        "innerHeight": 874,
+        "clientHeight": 874,
+        "visualHeight": 874,
+        "visualOffsetTop": 0,
+        "visualScale": 1,
+        "cssDynamicHeight": 874,
+        "elements": {
+          "html": {
+            "top": 0,
+            "bottom": 874,
+            "width": 402,
+            "height": 874,
+            "display": "block",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          "body": {
+            "top": 0,
+            "bottom": 874,
+            "width": 402,
+            "height": 874,
+            "display": "block",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          "main": {
+            "top": 0,
+            "bottom": 874,
+            "width": 402,
+            "height": 874,
+            "display": "block",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          "#title-screen": {
+            "top": 0,
+            "bottom": 0,
+            "width": 0,
+            "height": 0,
+            "display": "none",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          "#map-screen": {
+            "top": 0,
+            "bottom": 874,
+            "width": 402,
+            "height": 874,
+            "display": "flex",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          ".map-scroll": {
+            "top": 155,
+            "bottom": 874,
+            "width": 402,
+            "height": 719,
+            "display": "block",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          }
+        }
+      }
+    },
+    {
+      "scenario": {
+        "name": "standalone-short-visual",
+        "standalone": true,
+        "height": 874,
+        "inset": 34
+      },
+      "top": {
+        "standalone": true,
+        "innerHeight": 874,
+        "clientHeight": 874,
+        "visualHeight": 840,
+        "visualOffsetTop": 0,
+        "visualScale": 1,
+        "cssDynamicHeight": 874,
+        "elements": {
+          "html": {
+            "top": 0,
+            "bottom": 874,
+            "width": 402,
+            "height": 874,
+            "display": "block",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          "body": {
+            "top": 0,
+            "bottom": 874,
+            "width": 402,
+            "height": 874,
+            "display": "block",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          "main": {
+            "top": 0,
+            "bottom": 874,
+            "width": 402,
+            "height": 874,
+            "display": "block",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          "#title-screen": {
+            "top": 0,
+            "bottom": 874,
+            "width": 402,
+            "height": 874,
+            "display": "block",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          "#map-screen": {
+            "top": 0,
+            "bottom": 0,
+            "width": 0,
+            "height": 0,
+            "display": "none",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          ".map-scroll": {
+            "top": 0,
+            "bottom": 0,
+            "width": 0,
+            "height": 0,
+            "display": "block",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          }
+        }
+      },
+      "map": {
+        "standalone": true,
+        "innerHeight": 874,
+        "clientHeight": 874,
+        "visualHeight": 840,
+        "visualOffsetTop": 0,
+        "visualScale": 1,
+        "cssDynamicHeight": 874,
+        "elements": {
+          "html": {
+            "top": 0,
+            "bottom": 874,
+            "width": 402,
+            "height": 874,
+            "display": "block",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          "body": {
+            "top": 0,
+            "bottom": 874,
+            "width": 402,
+            "height": 874,
+            "display": "block",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          "main": {
+            "top": 0,
+            "bottom": 874,
+            "width": 402,
+            "height": 874,
+            "display": "block",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          "#title-screen": {
+            "top": 0,
+            "bottom": 0,
+            "width": 0,
+            "height": 0,
+            "display": "none",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          "#map-screen": {
+            "top": 0,
+            "bottom": 874,
+            "width": 402,
+            "height": 874,
+            "display": "flex",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          ".map-scroll": {
+            "top": 155,
+            "bottom": 874,
+            "width": 402,
+            "height": 719,
+            "display": "block",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          }
+        }
+      }
+    },
+    {
+      "scenario": {
+        "name": "standalone",
+        "standalone": true,
+        "height": 874,
+        "inset": 0
+      },
+      "top": {
+        "standalone": true,
+        "innerHeight": 874,
+        "clientHeight": 874,
+        "visualHeight": 874,
+        "visualOffsetTop": 0,
+        "visualScale": 1,
+        "cssDynamicHeight": 874,
+        "elements": {
+          "html": {
+            "top": 0,
+            "bottom": 874,
+            "width": 402,
+            "height": 874,
+            "display": "block",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          "body": {
+            "top": 0,
+            "bottom": 874,
+            "width": 402,
+            "height": 874,
+            "display": "block",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          "main": {
+            "top": 0,
+            "bottom": 874,
+            "width": 402,
+            "height": 874,
+            "display": "block",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          "#title-screen": {
+            "top": 0,
+            "bottom": 874,
+            "width": 402,
+            "height": 874,
+            "display": "block",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          "#map-screen": {
+            "top": 0,
+            "bottom": 0,
+            "width": 0,
+            "height": 0,
+            "display": "none",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          ".map-scroll": {
+            "top": 0,
+            "bottom": 0,
+            "width": 0,
+            "height": 0,
+            "display": "block",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          }
+        }
+      },
+      "map": {
+        "standalone": true,
+        "innerHeight": 874,
+        "clientHeight": 874,
+        "visualHeight": 874,
+        "visualOffsetTop": 0,
+        "visualScale": 1,
+        "cssDynamicHeight": 874,
+        "elements": {
+          "html": {
+            "top": 0,
+            "bottom": 874,
+            "width": 402,
+            "height": 874,
+            "display": "block",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          "body": {
+            "top": 0,
+            "bottom": 874,
+            "width": 402,
+            "height": 874,
+            "display": "block",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          "main": {
+            "top": 0,
+            "bottom": 874,
+            "width": 402,
+            "height": 874,
+            "display": "block",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          "#title-screen": {
+            "top": 0,
+            "bottom": 0,
+            "width": 0,
+            "height": 0,
+            "display": "none",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          "#map-screen": {
+            "top": 0,
+            "bottom": 874,
+            "width": 402,
+            "height": 874,
+            "display": "flex",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          ".map-scroll": {
+            "top": 155,
+            "bottom": 874,
+            "width": 402,
+            "height": 719,
+            "display": "block",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          }
+        }
+      }
+    },
+    {
+      "scenario": {
+        "name": "browser-short",
+        "standalone": false,
+        "height": 759,
+        "inset": 0
+      },
+      "top": {
+        "standalone": false,
+        "innerHeight": 759,
+        "clientHeight": 759,
+        "visualHeight": 759,
+        "visualOffsetTop": 0,
+        "visualScale": 1,
+        "cssDynamicHeight": 759,
+        "elements": {
+          "html": {
+            "top": 0,
+            "bottom": 759,
+            "width": 402,
+            "height": 759,
+            "display": "block",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          "body": {
+            "top": 0,
+            "bottom": 759,
+            "width": 402,
+            "height": 759,
+            "display": "block",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          "main": {
+            "top": 0,
+            "bottom": 759,
+            "width": 402,
+            "height": 759,
+            "display": "block",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          "#title-screen": {
+            "top": 0,
+            "bottom": 759,
+            "width": 402,
+            "height": 759,
+            "display": "block",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          "#map-screen": {
+            "top": 0,
+            "bottom": 0,
+            "width": 0,
+            "height": 0,
+            "display": "none",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          ".map-scroll": {
+            "top": 0,
+            "bottom": 0,
+            "width": 0,
+            "height": 0,
+            "display": "block",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          }
+        }
+      },
+      "map": {
+        "standalone": false,
+        "innerHeight": 759,
+        "clientHeight": 759,
+        "visualHeight": 759,
+        "visualOffsetTop": 0,
+        "visualScale": 1,
+        "cssDynamicHeight": 759,
+        "elements": {
+          "html": {
+            "top": 0,
+            "bottom": 759,
+            "width": 402,
+            "height": 759,
+            "display": "block",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          "body": {
+            "top": 0,
+            "bottom": 759,
+            "width": 402,
+            "height": 759,
+            "display": "block",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          "main": {
+            "top": 0,
+            "bottom": 759,
+            "width": 402,
+            "height": 759,
+            "display": "block",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          "#title-screen": {
+            "top": 0,
+            "bottom": 0,
+            "width": 0,
+            "height": 0,
+            "display": "none",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          "#map-screen": {
+            "top": 0,
+            "bottom": 759,
+            "width": 402,
+            "height": 759,
+            "display": "flex",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          },
+          ".map-scroll": {
+            "top": 155,
+            "bottom": 759,
+            "width": 402,
+            "height": 604,
+            "display": "block",
+            "paddingBottom": "0px",
+            "marginBottom": "0px"
+          }
+        }
+      }
+    }
+  ]
+}

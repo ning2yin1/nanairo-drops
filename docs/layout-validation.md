@@ -77,3 +77,10 @@ npm testの4件が成功。npm run buildとgit diff --checkが成功。
 - package.json: ビルド済み構成の開発起動と単体テストコマンド。
 - scripts/check-layout.cjs / scripts/check-offline.cjs / tests/progress.test.mjs: 回帰テスト。
 - README.md / docs/layout-validation.md / docs/screenshots/: 操作・構成・確認結果と画像。
+
+## 下端の共通レイアウト修正（v8）
+
+最新の画面高の調査・ブラウザ/PWA相当の計測・比較画像は
+[下端修正記録](pwa-viewport-fix.md)を参照。共通ルートが高さを一元管理し、
+各画面独自のvisualViewport.height設定とマップ末尾のSafe Area paddingを撤去した。
+v7→v8更新後のオフライン動作と保存データ保持も確認済み。

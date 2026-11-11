@@ -1,0 +1,89 @@
+{
+  "scenario": "Synthetic standalone: innerHeight/clientHeight=874, visualViewport.height=840; not an actual iPhone measurement",
+  "top": {
+    "innerHeight": 874,
+    "clientHeight": 874,
+    "visualHeight": 840,
+    "elements": {
+      "html": {
+        "height": 874,
+        "bottom": 874,
+        "paddingBottom": "0px",
+        "marginBottom": "0px"
+      },
+      "body": {
+        "height": 874,
+        "bottom": 874,
+        "paddingBottom": "0px",
+        "marginBottom": "0px"
+      },
+      "main": {
+        "height": 874,
+        "bottom": 874,
+        "paddingBottom": "0px",
+        "marginBottom": "0px"
+      },
+      "#title-screen": {
+        "height": 840,
+        "bottom": 840,
+        "paddingBottom": "0px",
+        "marginBottom": "0px"
+      },
+      "#map-screen": {
+        "height": 0,
+        "bottom": 0,
+        "paddingBottom": "0px",
+        "marginBottom": "0px"
+      },
+      ".map-scroll": {
+        "height": 0,
+        "bottom": 0,
+        "paddingBottom": "0px",
+        "marginBottom": "0px"
+      }
+    }
+  },
+  "map": {
+    "innerHeight": 874,
+    "clientHeight": 874,
+    "visualHeight": 840,
+    "elements": {
+      "html": {
+        "height": 874,
+        "bottom": 874,
+        "paddingBottom": "0px",
+        "marginBottom": "0px"
+      },
+      "body": {
+        "height": 874,
+        "bottom": 874,
+        "paddingBottom": "0px",
+        "marginBottom": "0px"
+      },
+      "main": {
+        "height": 874,
+        "bottom": 874,
+        "paddingBottom": "0px",
+        "marginBottom": "0px"
+      },
+      "#title-screen": {
+        "height": 0,
+        "bottom": 0,
+        "paddingBottom": "0px",
+        "marginBottom": "0px"
+      },
+      "#map-screen": {
+        "height": 840,
+        "bottom": 840,
+        "paddingBottom": "0px",
+        "marginBottom": "0px"
+      },
+      ".map-scroll": {
+        "height": 747,
+        "bottom": 840,
+        "paddingBottom": "0px",
+        "marginBottom": "0px"
+      }
+    }
+  }
+}

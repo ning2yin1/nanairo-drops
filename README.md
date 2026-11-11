@@ -73,3 +73,12 @@ CHROMIUM=/path/to/chromium node scripts/check-offline.cjs
 `SCREENSHOT_DIR`を設定するとTOPとマップのスクリーンショットを保存します。
 アプリのビルドと実行にはPlaywrightは不要です。
 確認結果と制約は[検証記録](docs/layout-validation.md)、画像は[docs/screenshots/](docs/screenshots/)を参照してください。
+
+## PWAの下端と共通ビューポート
+
+`viewport.js`が共通ルートの高さを一元管理します。TOP/マップはその領域全体を覆い、
+Safe Areaで背景やスクロール領域を縮めません。PWAでは短いvisualViewport.heightを
+そのまま画面高に使わず、innerHeight/clientHeight/100dvhを比較します。
+ブラウザ版はCSS100dvhに追従します。詳細な数値とスクリーンショットは
+[PWAの下端修正記録](docs/pwa-viewport-fix.md)を参照してください。
+`CHROMIUM=/path/to/chromium node scripts/check-viewport.cjs`で回帰テストを実行できます。

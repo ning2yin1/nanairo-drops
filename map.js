@@ -1,4 +1,5 @@
-import {readProgress,stageState} from './progress.js?v=7';
+import {syncViewport} from './viewport.js?v=8';
+import {readProgress,stageState} from './progress.js?v=8';
 const base = new URL('./nanairo-map-assets/nanairo-map-assets/',import.meta.url);
 const asset = path => new URL(path,base).href;
 const screen = document.querySelector('#map-screen');
@@ -80,7 +81,7 @@ export function openMap() {
 }
 function fitMap(){
   if(screen.hidden)return;
-  screen.style.height=`${window.visualViewport?.height||window.innerHeight}px`;
+  syncViewport();
   const next=scroller.clientWidth;if(next!==width){width=next;requestAnimationFrame(()=>locateCurrent())}
 }
 new ResizeObserver(fitMap).observe(scroller);

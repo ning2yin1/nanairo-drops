@@ -10,7 +10,7 @@ const shot=process.env.SCREENSHOT_DIR;
   const ctx=await browser.newContext({viewport:{width,height},isMobile:true,hasTouch:true,serviceWorkers:'block'});const p=await ctx.newPage();const errors=[];
   p.on('pageerror',e=>errors.push(e.message));p.on('response',r=>{if(r.status()>=400)errors.push(r.url())});
   await p.goto(base);await p.addStyleTag({content:`#title-screen{--safe-top:${safeTop}px;--safe-bottom:${safeBottom}px}`});
-  await p.evaluate(async()=>{(await import('./title-screen.js?v=7')).fitTitle();await Promise.all([...document.querySelectorAll('#title-screen img')].map(i=>i.decode()))});
+  await p.evaluate(async()=>{(await import('./title-screen.js?v=8')).fitTitle();await Promise.all([...document.querySelectorAll('#title-screen img')].map(i=>i.decode()))});
   const top=await p.evaluate(()=>{
    const rect=s=>document.querySelector(s).getBoundingClientRect().toJSON();
    return {screen:rect('#title-screen'),art:rect('.title-art'),bg:rect('.title-background'),button:rect('#start'),transform:getComputedStyle(document.querySelector('.title-background')).transform};
@@ -66,7 +66,7 @@ const shot=process.env.SCREENSHOT_DIR;
   await p.locator('#settings').tap();await p.locator('#game-dialog button').tap();
   if(width===402&&shot){await p.locator('.map-background').last().evaluate(i=>i.decode());await p.screenshot({path:`${shot}/map-402x874.png`})}
   if(width===402){
-    await p.addStyleTag({content:'.map-header{padding-top:62px}.map-scroll{padding-bottom:34px}#locate-current{bottom:50px}'});
+    await p.addStyleTag({content:'.map-header{padding-top:62px}#locate-current{bottom:50px}'});
     await p.locator('#locate-current').tap();
     await p.waitForFunction(()=>{const pin=document.querySelector('[aria-current="step"]').getBoundingClientRect(),head=document.querySelector('.map-header').getBoundingClientRect();return pin.top>=head.bottom&&pin.bottom<=innerHeight-34});
     assert.equal((await p.locator('.map-header-art').boundingBox()).y,62);

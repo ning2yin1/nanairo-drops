@@ -1,10 +1,10 @@
-import {coverGeometry} from './title-layout.js?v=7';
+import {syncViewport} from './viewport.js?v=8';
+import {coverGeometry} from './title-layout.js?v=8';
 const screen = document.querySelector('#title-screen');
 const art = screen.querySelector('.title-art');
 export function fitTitle() {
   if(screen.hidden)return;
-  // Scope all viewport changes to TOP: other screens retain their own layout.
-  screen.style.height = `${window.visualViewport?.height || window.innerHeight}px`;
+  syncViewport();
   const {width,height} = screen.getBoundingClientRect();
   if(!width || !height)return;
   const style = getComputedStyle(screen);
